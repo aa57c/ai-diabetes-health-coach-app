@@ -1,6 +1,7 @@
 ### AI Powered Diabetes Prediction and Health Coach App
 
 ## Demo: https://youtu.be/ilnozF_kpas
+## App: https://diabetes-health-coach.streamlit.app/
 
 ## Overview
 
