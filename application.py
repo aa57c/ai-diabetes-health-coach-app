@@ -17,7 +17,7 @@ import boto3
 MONGO_URI = st.secrets["mongo_db"]["mongo_db_conn_url"]
 BUCKET_NAME = st.secrets["s3"]["bucket_name"]
 # API Call Function
-#API_URL = 'http://localhost:11434/api/generate'
+API_URL = 'http://localhost:11434/api/generate'
 
 # Define class labels
 CLASS_LABELS = {
@@ -119,20 +119,20 @@ def update_user_gender(username, gender):
     credentials_collection.update_one({"username": username}, {"$set": {"gender": gender}})
 
 
-#def generate_recommendations(user_data):
+def generate_recommendations(user_data):
  #   Fetch recommendations based on user data.
-  #  payload = {
-   #     "model": "llama3.2",
-    #    "prompt": f"Provide a personalized lifestyle and dietary recommendation based on the following characteristics: {user_data}. Do not provide medical advice, just general wellness recommendations.",
-     #   "stream": False
-    #}
-    #response = requests.post(API_URL, json=payload)
-    #if response.status_code == 200:
-     #   response_json = response.json()
-      #  return response_json.get('response', [])
-    #else:
-     #   st.error(f"Error: {response.status_code}")
-      #  return []
+    payload = {
+        "model": "llama3.2",
+        "prompt": f"Provide a personalized lifestyle and dietary recommendation based on the following characteristics: {user_data}. Do not provide medical advice, just general wellness recommendations.",
+        "stream": False
+    }
+    response = requests.post(API_URL, json=payload)
+    if response.status_code == 200:
+        response_json = response.json()
+        return response_json.get('response', [])
+    else:
+        st.error(f"Error: {response.status_code}")
+        return []
 
 
 # UI Helper Functions
@@ -299,19 +299,19 @@ def flatten_cgm_data(nested_cgm):
 
 def save_to_mongodb(input_data_dict, combined_preds, predicted_class, cgm_lstm_input):
     
-   # """Saves user input and prediction results to MongoDB."""
+   """Saves user input and prediction results to MongoDB."""
     # Prepare a summary for recommendations
-    #user_input_summary = ", ".join([
-     #   f"{k}: {'Yes' if v == 1 else 'No' if v == 0 else v}" 
-      #  for k, v in input_data_dict.items()
-    #])
+    user_input_summary = ", ".join([
+        f"{k}: {'Yes' if v == 1 else 'No' if v == 0 else v}" 
+        for k, v in input_data_dict.items()
+    ])
 
     # Generate recommendations based on user input summary
-    #with st.spinner("Getting recommendations..."):
-     #   recommendations = generate_recommendations(user_input_summary)
-
+    with st.spinner("Getting recommendations..."):
+        recommendations = generate_recommendations(user_input_summary)
+    
     # Display the recommendations
-    #st.info(recommendations)
+    st.info(recommendations)
     
 
     input_data_dict.update({
