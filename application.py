@@ -11,13 +11,12 @@ import joblib
 import xgboost as xgb
 import tensorflow as tf
 import boto3
+import ollama
 
 # Load environment variables
 
 MONGO_URI = st.secrets["mongo_db"]["mongo_db_conn_url"]
 BUCKET_NAME = st.secrets["s3"]["bucket_name"]
-# API Call Function
-API_URL = st.secrets["api"]["url"]
 
 # Define class labels
 CLASS_LABELS = {
@@ -121,19 +120,18 @@ def update_user_gender(username, gender):
 
 def generate_recommendations(user_data):
  #   Fetch recommendations based on user data.
-    payload = {
-        "model": "llama3.2",
-        "prompt": f"Provide a personalized lifestyle and dietary recommendation based on the following characteristics: {user_data}. Do not provide medical advice, just general wellness recommendations.",
-        "stream": False
-    }
-    response = requests.post(API_URL, json=payload)
-    if response.status_code == 200:
-        response_json = response.json()
-        return response_json.get('response', [])
-    else:
-        st.error(f"Error: {response.status_code}")
-        return []
+    prompt = f"Provide a personalized lifestyle and dietary recommendation based on the following characteristics: {user_data}. Do not provide medical advice, just general wellness recommendations."
 
+    try:
+        response = ollama.generate(
+            model='llama3',
+            prompt=prompt,
+            stream=False
+        )
+        return response.get('response', '')
+    except Exception as e:
+        st.error(f"Error: {e}")
+        return ''
 
 # UI Helper Functions
 def styled_header(title, subtitle=None):
