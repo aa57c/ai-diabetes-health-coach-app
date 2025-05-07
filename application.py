@@ -119,20 +119,29 @@ def update_user_gender(username, gender):
 
 
 def generate_recommendations(user_data):
- #   Fetch recommendations based on user data.
-    OLLAMA_HOST = "https://da52-136-37-21-211.ngrok-free.app"  # e.g., https://abcd1234.ngrok.io
-    client = ollama.Client(host=OLLAMA_HOST)
-    prompt = f"Provide a personalized lifestyle and dietary recommendation based on the following characteristics: {user_data}. Do not provide medical advice, just general wellness recommendations."
+    prompt = (
+        f"Provide a personalized lifestyle and dietary recommendation "
+        f"based on the following characteristics: {user_data}. "
+        f"Do not provide medical advice, just general wellness recommendations."
+    )
+
+    payload = {
+        "model": "llama3",
+        "prompt": prompt,
+        "stream": False
+    }
+
+    headers = {
+        "Content-Type": "application/json",
+        "Host": "da52-136-37-21-211.ngrok-free.app"  # May help with 403
+    }
 
     try:
-        response = client.generate(
-            model='llama3',
-            prompt=prompt,
-            stream=False
-        )
-        return response.get('response', '')
-    except Exception as e:
-        st.error(f"Error: {e}")
+        response = requests.post(f"{OLLAMA_URL}/api/generate", json=payload, headers=headers)
+        response.raise_for_status()
+        return response.json().get('response', '')
+    except requests.exceptions.RequestException as e:
+        st.error(f"Request failed: {e}")
         return ''
 
 # UI Helper Functions
