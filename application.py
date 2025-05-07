@@ -299,8 +299,8 @@ def flatten_cgm_data(nested_cgm):
 
 def save_to_mongodb(input_data_dict, combined_preds, predicted_class, cgm_lstm_input):
     
-   """Saves user input and prediction results to MongoDB."""
-    # Prepare a summary for recommendations
+   # Saves user input and prediction results to MongoDB."""
+    
     user_input_summary = ", ".join([
         f"{k}: {'Yes' if v == 1 else 'No' if v == 0 else v}" 
         for k, v in input_data_dict.items()
