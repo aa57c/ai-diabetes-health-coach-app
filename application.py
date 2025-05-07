@@ -119,6 +119,7 @@ def update_user_gender(username, gender):
 
 
 def generate_recommendations(user_data):
+    OLLAMA_URL = "https://da52-136-37-21-211.ngrok-free.app"
     prompt = (
         f"Provide a personalized lifestyle and dietary recommendation "
         f"based on the following characteristics: {user_data}. "
