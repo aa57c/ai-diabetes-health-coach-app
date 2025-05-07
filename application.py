@@ -17,7 +17,7 @@ import boto3
 MONGO_URI = st.secrets["mongo_db"]["mongo_db_conn_url"]
 BUCKET_NAME = st.secrets["s3"]["bucket_name"]
 # API Call Function
-API_URL = st.secrets["api"]["URL"]
+API_URL = st.secrets["api"]["url"]
 
 # Define class labels
 CLASS_LABELS = {
