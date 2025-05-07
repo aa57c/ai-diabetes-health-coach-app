@@ -120,10 +120,12 @@ def update_user_gender(username, gender):
 
 def generate_recommendations(user_data):
  #   Fetch recommendations based on user data.
+    OLLAMA_HOST = "https://da52-136-37-21-211.ngrok-free.app"  # e.g., https://abcd1234.ngrok.io
+    client = ollama.Client(host=OLLAMA_HOST)
     prompt = f"Provide a personalized lifestyle and dietary recommendation based on the following characteristics: {user_data}. Do not provide medical advice, just general wellness recommendations."
 
     try:
-        response = ollama.generate(
+        response = client.generate(
             model='llama3',
             prompt=prompt,
             stream=False
