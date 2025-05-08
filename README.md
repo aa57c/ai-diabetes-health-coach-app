@@ -114,7 +114,7 @@ streamlit run app.py
 
 ## 📬 Contact
 
-For questions or feedback, please reach out at [your-email@example.com] or open an issue.
+For questions or feedback, please reach out at ashna.ali.prof@gmail.com or open an issue.
 
 
     
