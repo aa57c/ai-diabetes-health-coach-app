@@ -17,6 +17,7 @@ import ollama
 
 MONGO_URI = st.secrets["mongo_db"]["mongo_db_conn_url"]
 BUCKET_NAME = st.secrets["s3"]["bucket_name"]
+LLM_API = st.secrets["api"]["url"]
 
 # Define class labels
 CLASS_LABELS = {
@@ -119,31 +120,44 @@ def update_user_gender(username, gender):
 
 
 def generate_recommendations(user_data):
-    OLLAMA_URL = "https://da52-136-37-21-211.ngrok-free.app"
+    # Ensure the user data is formatted into a string if it's a dictionary
+    if isinstance(user_data, dict):
+        user_data_str = ', '.join([f"{key}: {value}" for key, value in user_data.items()])
+    else:
+        user_data_str = str(user_data)
+    
+    # Build the prompt for generating recommendations
     prompt = (
         f"Provide a personalized lifestyle and dietary recommendation "
-        f"based on the following characteristics: {user_data}. "
+        f"based on the following characteristics: {user_data_str}. "
         f"Do not provide medical advice, just general wellness recommendations."
     )
 
     payload = {
-        "model": "llama3",
+        "model": "llama3.2",
         "prompt": prompt,
         "stream": False
     }
 
     headers = {
-        "Content-Type": "application/json",
-        "Host": "da52-136-37-21-211.ngrok-free.app"  # May help with 403
+        "Content-Type": "application/json"
     }
 
     try:
-        response = requests.post(f"{OLLAMA_URL}/api/generate", json=payload, headers=headers)
-        response.raise_for_status()
+        # Make the API request
+        response = requests.post(f"{LLM_API}/api/generate", json=payload, headers=headers)
+
+        # Check for successful response
+        response.raise_for_status()  # Raise an error for HTTP error responses (4xx or 5xx)
+
+        # Return the response from the API
         return response.json().get('response', '')
+    
     except requests.exceptions.RequestException as e:
+        # Handle error in case of any exception during the request
         st.error(f"Request failed: {e}")
         return ''
+
 
 # UI Helper Functions
 def styled_header(title, subtitle=None):
