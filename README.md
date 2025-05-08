@@ -1,82 +1,121 @@
-### AI Powered Diabetes Prediction and Health Coach App
+# 🩺 AI-Powered Diabetes Health Coach
 
-## Demo: https://youtu.be/ilnozF_kpas
-## App: https://diabetes-health-coach.streamlit.app/
+An AI-driven web application that predicts diabetes risk and provides personalized health recommendations using structured data and CGM (Continuous Glucose Monitoring) trends. This app combines Machine Learning and Deep Learning with Large Language Models to assist users in managing their health proactively.
 
-## Overview
+---
+## Demo
+This demo was recorded during Fall Semester 2024 at University of Missouri-Kansas City for the UMKC Rack-A-Roo Competition. I want to give thanks to Professor Yugyung Lee and my teammates Sai, Venkat, and Sreevardhan for helping me during the development process: https://youtu.be/ilnozF_kpas?si=1PN9cMrSxw3REIZA
 
-This repository contains a Streamlit application designed for predicting diabetes using pretrained XGBoost and LSTM models. The app collects user input, processes the data, and makes combined predictions from both models. User inputs and predictions are also stored in a MongoDB database for future retraining and analysis.
+## Deployed App
+The app can be found at this address: https://diabetes-health-coach.streamlit.app/
 
-## Features
-- User-friendly interface for data entry and prediction.
-- Combines predictions from XGBoost and LSTM models.
-- Stores user data and prediction results in MongoDB.
-- Supports model retraining using recent user data stored in MongoDB and S3.
+## 🚀 App Features
 
-## Prerequisites
-- Python 3.8 or higher
-- MongoDB (for data storage)
-- Ollama server (required for Large Language Model integrations)
+- **🧠 Diabetes Prediction** using structured health data and CGM input
+- **📈 Personalized Health Recommendations** generated using LLMs
+- **💾 User Data Storage** via MongoDB
+- **📦 Models stored on Amazon S3**
+- **🖥️ LLM API hosted on Amazon EC2**
+- **🌐 Deployed on Streamlit Community Cloud**
 
-## Installation
-1. Clone the Repository
+---
 
-       git clone [https://github.com/yourusername/diabetes-prediction-app.git] (https://github.com/aa57c/DS_Capstone_Project.git)
-       cd DS_Capstone_Project
+## 🛠️ Tech Stack
 
-3. Set up .ENV file for the database connection url
-   shell
-   
-       touch .env
-   
-   .env
-   
-       MONGO_DB_CONN_URL=mongodb+srv://<username>:<password>@cluster0.yhab1.mongodb.net/
+| Component          | Technology                        |
+|--------------------|-----------------------------------|
+| Frontend           | [Streamlit](https://streamlit.io) |
+| ML Models          | XGBoost, LSTM                     |
+| LLM Server         | Hosted on **Amazon EC2**          |
+| Model Storage      | **Amazon S3**                     |
+| Backend Database   | **MongoDB Atlas** (Cloud-hosted)  |
+| Deployment         | **Streamlit Community Cloud**     |
+
+---
+
+## 📂 Project Structure
+
+```bash
+ai-diabetes-health-coach-app/
+│
+├── models/                # Placeholder if local testing is needed
+├── utils/                 # Helper functions
+├── api/                   # LLM API endpoint (deployed on EC2)
+├── app.py                 # Main Streamlit app
+├── requirements.txt       # Python dependencies
+└── README.md              # You're here!
+```
+
+---
+
+## ⚙️ How It Works
+
+1. **User Input**:
+   - Health and lifestyle data collected via forms
+   - Optional: Upload CGM data (for deeper insights)
+
+2. **Prediction**:
+   - ML models (XGBoost for structured data, LSTM for CGM) loaded from S3
+   - Combined prediction generated
+
+3. **LLM Recommendation**:
+   - User's data and prediction sent to an EC2-hosted API
+   - LLM generates personalized advice and educational info
+   - WARNING: Because of resource contraints, the models are run on EC2 using CPU not GPU. So the recommendations might take some time to load. This feature will further be improved in due course.
+
+4. **Storage**:
+   - All inputs, predictions, and recommendations stored in MongoDB
+
+---
+
+## 🧪 Local Setup (for testing)
+
+> Note: For local testing, you must mock AWS S3 and MongoDB connections.
+
+```bash
+# Clone the repo
+git clone https://github.com/your-username/ai-diabetes-health-coach-app.git
+cd ai-diabetes-health-coach-app
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the app
+streamlit run app.py
+```
+
+---
+
+## ☁️ Deployment Overview
+
+- **Models**: Uploaded to an S3 bucket (`s3://your-model-bucket`)
+- **LLM Server**: Flask/FastAPI server hosted on EC2 (`http://ec2-your-ip:port`)
+- **Database**: MongoDB Atlas handles input logs and user interaction history
+- **Frontend**: Hosted on [Streamlit Community Cloud](https://streamlit.io/cloud)
+
+---
+
+## 🔐 Security & Privacy
+
+- No personal identifiers are stored.
+- All user interactions are anonymized and securely stored.
+- Communication with the LLM API and database is encrypted.
+
+---
+
+## 🧩 Future Improvements
+
+- Enhanced security for sensitive healthcare data
+- Retraining pipeline for continuous model improvement
+- Expanded health metrics and condition support
+- Feedback loop for LLM recommendation accuracy
+
+---
+
+## 📬 Contact
+
+For questions or feedback, please reach out at [your-email@example.com] or open an issue.
 
 
-5. Install Dependencies
-   
-   shell
-
-       touch requirements.txt
-
-   requirements.txt
-       
-       streamlit==1.23.1
-       numpy==1.24.2
-       pandas==2.1.1
-       requests==2.31.0
-       pymongo==4.4.0
-       python-dotenv==1.0.0
-       joblib==1.2.0
-       xgboost==1.7.6
-       tensorflow==2.13.0
-       scikit-learn==1.2.2
-   
-    shell
-       
-       pip install -r requirements.txt
-
-7. Download and Install the Ollama Server
-   
-   To enhance your application with the LLM, you will need the Ollama server. Follow the link below for installation instructions:
-   https://ollama.com/
-
-   Make sure the server is running before you run the application.
-   
-9. Run the application
-
-       streamlit run app.py
-
-## Configuration
-
-- Ensure that MongoDB is running locally or update the connection URI in the application code for remote access.
-- Modify the configuration settings in app.py as needed for your environment (e.g., model file paths and database credentials).
-
-## Usage
-
-1. Open your web browser and navigate to http://localhost:8501.
-2. Fill out the input fields and submit the form to receive a prediction.
-3. View the results and prediction confidence, which will be logged in MongoDB.
     
 
