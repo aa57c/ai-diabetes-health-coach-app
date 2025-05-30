@@ -83,7 +83,18 @@ pip install -r requirements.txt
 # Run the app
 streamlit run app.py
 ```
-
+---
+## Local Setup for LLM
+1. Download Ollama Server for your operating system from here: https://github.com/ollama/ollama
+2. Pull a model by invoking this command in your terminal
+   ```bash
+   ollama pull llama3.2
+   ```
+3. After cloning the repository of this project, make sure to define LLM_API as "http://localhost:11434"
+4. Finally, start the server
+   ```bash
+   ollama serve
+   ```
 ---
 
 ## ☁️ Deployment Overview
