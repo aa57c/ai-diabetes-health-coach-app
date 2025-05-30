@@ -90,7 +90,10 @@ streamlit run app.py
    ```bash
    ollama pull llama3.2
    ```
-3. After cloning the repository of this project, make sure to define LLM_API as "http://localhost:11434"
+3. After cloning the repository of this project, make sure to define LLM_API as
+   ```bash
+   http://localhost:11434
+   ```
 4. Finally, start the server
    ```bash
    ollama serve
