@@ -94,7 +94,7 @@ streamlit run app.py
    ```bash
    http://localhost:11434
    ```
-4. Finally, start the server
+4. Finally, start the server by invoking this command in your terminal
    ```bash
    ollama serve
    ```
