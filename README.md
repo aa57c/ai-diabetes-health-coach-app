@@ -15,7 +15,7 @@ The app can be found at this address: https://diabetes-health-coach.streamlit.ap
 - **📈 Personalized Health Recommendations** generated using LLMs
 - **💾 User Data Storage** via MongoDB
 - **📦 Models stored on Amazon S3**
-- **🖥️ LLM API hosted on Amazon EC2**
+- **🖥️ LLM API hosted on Amazon EC2** (Due to cost restraints, this service has been temporarily discontinued. Please read below on how to run the LLM locally.)
 - **🌐 Deployed on Streamlit Community Cloud**
 
 ---
